@@ -18,20 +18,35 @@
         var r1 = 300;
         var r2 = 150;
 
-        context.lineWidth=10;
-        drawStar(context,150,300,400,400,30);
+        context.fillStyle = "blank";
+        context.fillRect(0,0,canvas.width,canvas.height);
+
+        for (var i = 0;i<200;i++){
+            var r = 10+10*Math.random();
+            var x = canvas.width*Math.random();
+            var y = canvas.height*Math.random();
+            var rot = 360*Math.random();
+            drawStar(context,x,y,r,r/2.0,rot);
+        }
     }
-    function drawStar(cxt,r,R,x,y,rot){
+    function drawStar(cxt,x,y,outerR,innerR,rot){
         cxt.beginPath();
         for (var i = 0; i<5;i++){
-            var x1 = Math.cos((18+i*72-rot)/180*Math.PI)*R+x;
-            var y1 = -Math.sin((18+i*72-rot)/180*Math.PI)*R+y;
+            var x1 = Math.cos((18+i*72-rot)/180*Math.PI)*outerR+x;
+            var y1 = -Math.sin((18+i*72-rot)/180*Math.PI)*outerR+y;
             cxt.lineTo(x1,y1);
-            let x2 = Math.cos((54+i*72-rot)/180*Math.PI)*r+x;
-            let y2 = -Math.sin((54+i*72-rot)/180*Math.PI)*r+y;
+            let x2 = Math.cos((54+i*72-rot)/180*Math.PI)*innerR+x;
+            let y2 = -Math.sin((54+i*72-rot)/180*Math.PI)*innerR+y;
             cxt.lineTo(x2,y2);
         }
         cxt.closePath();
+
+        cxt.fillStyle = "#fb3";
+        cxt.strokeStyle = "#fd5";
+        //cxt.lineWidth=3;
+        cxt.lineJoin = "round";
+
+        cxt.fill();
         cxt.stroke();
     }
 </script>
