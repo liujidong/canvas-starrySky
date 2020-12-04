@@ -16,13 +16,16 @@
 
         var context = canvas.getContext("2d");
 
-        context.fillStyle = "blank";
+        var skyStyle = context.createLinearGradient(0,0,0,canvas.height);
+        skyStyle.addColorStop(0.0,'black');
+        skyStyle.addColorStop(1.0,'#035');
+        context.fillStyle = skyStyle;
         context.fillRect(0,0,canvas.width,canvas.height);
 
         for (var i = 0;i<200;i++){
-            var r = 10+10*Math.random();
+            var r = 5+5*Math.random();
             var x = canvas.width*Math.random();
-            var y = canvas.height*Math.random();
+            var y = canvas.height*Math.random()*0.65;
             var rot = 360*Math.random();
             drawStar(context,x,y,r,rot);
         }
