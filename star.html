@@ -15,8 +15,6 @@
         canvas.height = 768;
 
         var context = canvas.getContext("2d");
-        var r1 = 300;
-        var r2 = 150;
 
         context.fillStyle = "blank";
         context.fillRect(0,0,canvas.width,canvas.height);
@@ -30,15 +28,19 @@
         }
     }
     function drawStar(cxt,x,y,R,rot){
+        cxt.save();
+        cxt.translate(x,y);
+        cxt.rotate(rot/180*Math.PI);
+        cxt.scale(R,R);
+
         starPath(cxt);
-
         cxt.fillStyle = "#fb3";
-        cxt.strokeStyle = "#fd5";
-        //cxt.lineWidth=3;
-        cxt.lineJoin = "round";
-
+        // cxt.strokeStyle = "#fd5";
+        // cxt.lineWidth=3;
+        // cxt.lineJoin = "round";
         cxt.fill();
-        cxt.stroke();
+        // cxt.stroke();
+        cxt.restore();
     }
     function starPath(cxt){
         cxt.beginPath();
@@ -46,8 +48,8 @@
             var x1 = Math.cos((18+i*72)/180*Math.PI);
             var y1 = -Math.sin((18+i*72)/180*Math.PI);
             cxt.lineTo(x1,y1);
-            let x2 = Math.cos((54+i*72)/180*Math.PI);
-            let y2 = -Math.sin((54+i*72)/180*Math.PI);
+            let x2 = Math.cos((54+i*72)/180*Math.PI)*0.5;
+            let y2 = -Math.sin((54+i*72)/180*Math.PI)*0.5;
             cxt.lineTo(x2,y2);
         }
         cxt.closePath();
