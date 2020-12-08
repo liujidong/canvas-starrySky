@@ -34,6 +34,24 @@
         }
 
         fillMoon(context,2,900,200,100,30);
+        drawLand(context);
+    }
+    function drawLand(cxt){
+        cxt.save();
+        cxt.beginPath();
+        cxt.moveTo(0,600);
+        cxt.bezierCurveTo(540,400,660,800,1200,600);
+        cxt.lineTo(1200,800);
+        cxt.lineTo(0,800);
+        cxt.closePath();
+
+        var landStyle = cxt.createLinearGradient(0,800,0,0);
+        landStyle.addColorStop(0.0,"#030");
+        landStyle.addColorStop(1.0,"#580");
+        cxt.fillStyle=landStyle;
+        cxt.fill();
+
+        cxt.restore();
     }
     function drawStar(cxt,x,y,R,rot){
         cxt.save();
@@ -76,7 +94,8 @@
         cxt.beginPath();
         cxt.arc(0,0,1,0.5*Math.PI,1.5*Math.PI,true);
         cxt.moveTo(0,-1);
-        cxt.arcTo(d,0,0,1,dis(0,-1,d,0)/d);
+        //cxt.arcTo(d,0,0,1,dis(0,-1,d,0)/d);
+        cxt.quadraticCurveTo(1.2,0,0,1);
         cxt.closePath();
     }
     function dis(x1,y1,x2,y2){
