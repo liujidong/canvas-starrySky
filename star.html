@@ -15,24 +15,39 @@
         canvas.height = 768;
 
         var context = canvas.getContext("2d");
-        var r1 = 300;
-        var r2 = 150;
+
+        context.shadowColor="#058";
+        context.shadowOffsetX=10;
+        context.shadowOffsetY=10;
+        context.shadowBlur=5;
 
         context.lineWidth=10;
-        drawStar(context,150,300,400,400,30);
+        drawStar(context,400,400,300,30);
     }
-    function drawStar(cxt,r,R,x,y,rot){
+    function drawStar(cxt,x,y,R,rot){
+        cxt.save();
+        cxt.translate(x,y);
+        cxt.rotate(rot/180*Math.PI);
+        cxt.scale(R,R);
+
+        starPath(cxt);
+        cxt.fillStyle = "#fb3";
+
+        cxt.fill();
+        // cxt.stroke();
+        cxt.restore();
+    }
+    function starPath(cxt){
         cxt.beginPath();
         for (var i = 0; i<5;i++){
-            var x1 = Math.cos((18+i*72-rot)/180*Math.PI)*R+x;
-            var y1 = -Math.sin((18+i*72-rot)/180*Math.PI)*R+y;
+            var x1 = Math.cos((18+i*72)/180*Math.PI);
+            var y1 = -Math.sin((18+i*72)/180*Math.PI);
             cxt.lineTo(x1,y1);
-            let x2 = Math.cos((54+i*72-rot)/180*Math.PI)*r+x;
-            let y2 = -Math.sin((54+i*72-rot)/180*Math.PI)*r+y;
+            let x2 = Math.cos((54+i*72)/180*Math.PI)*0.5;
+            let y2 = -Math.sin((54+i*72)/180*Math.PI)*0.5;
             cxt.lineTo(x2,y2);
         }
         cxt.closePath();
-        cxt.stroke();
     }
 </script>
 </body>
