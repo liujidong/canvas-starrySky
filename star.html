@@ -12,6 +12,15 @@
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext("2d");
 
+    var originalMoveTo = CanvasRenderingContext2D.prototype.moveTo;
+    //console.log(originalMoveTo);
+    CanvasRenderingContext2D.prototype.lastMoveToLoc = {};
+    CanvasRenderingContext2D.prototype.moveTo = function(x,y){
+        originalMoveTo.apply(context,[x,y]);
+
+        this.lastMoveToLoc.x = x;
+        this.lastMoveToLoc.y = y;
+    }
     CanvasRenderingContext2D.prototype.starPath = function(scale){
         this.beginPath();
         for (var i = 0; i<5;i++){
@@ -25,9 +34,9 @@
         this.closePath();
         this.fill();       
     }
-   CanvasRenderingContext2D.prototype.fillStar = function(r,R,x,y,rot){ 
+   CanvasRenderingContext2D.prototype.fillStar = function(r,R,rot){ 
         this.save();
-        this.translate(x,y);
+        this.translate(this.lastMoveToLoc.x,this.lastMoveToLoc.y);
         this.rotate(rot/180*Math.PI);
         this.scale(R,R);
 
@@ -49,7 +58,8 @@
         context.shadowBlur=5;
         
         context.lineWidth=10;
-        context.fillStar(300,150,400,400,30);
+        context.moveTo(400,400);
+        context.fillStar(300,150,30);
     }
 </script>
 </body>
