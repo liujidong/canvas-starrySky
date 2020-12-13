@@ -4,12 +4,80 @@
     <meta charset="UTF-8">
     <title>多彩泡泡-运动</title>
 </head>
+    <style type="text/css">
+        #canvas-wrapper{
+            width:1200px;
+            height: 800px;
+            position: relative;
+            margin:50px auto;
+        }
+        #canvas{
+            border: 1px solid #aaa;
+        }
+        #controller{
+            position: absolute;
+            top:30px;
+            left: 30px;
+            background-color:rgb(0,85,116,0.7);
+            padding: 5px 20px 25px 20px;
+            border-radius: 10px 10px;
+        }
+        #controller h1{
+            color: white;
+            font-weight: bold;
+            font-family: Microsoft Yahei;
+        }
+        #controller #canvas-btn{
+            display: inline-block;
+            background-color: #8b0;
+            color: white;
+            font-size: 14px;
+            padding: 5px 15px;
+            border-radius: 6px 6px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-right: 20px;
+        }
+        #controller #canvas-btn:hover{
+            text-decoration: none;
+            background-color: #7a0;
+        }
+        #controller .color-btn{
+            display: inline-block;
+            padding: 5px 15px;
+            border-size:14px;
+            margin-top: 10px;
+            margin-right:5px;
+            text-decoration: none;
+        }
+        #controller .color-btn:hover{
+            text-decoration: none;
+        }
+        #controller #white-color-btn{
+            background-color: white;
+        }
+        #controller #black-color-btn{
+            background-color: black;
+        }
+    </style>
 <body>
-<canvas id="canvas" style="border: 1px solid #aaa;display:block;margin:50px auto;">
-    当前浏览器不支持Canvas，请更换浏览器后再试
-</canvas>
+<div id="canvas-wrapper">
+    <canvas id="canvas" style="border: 1px solid #aaa;display:block;margin:50px auto;">
+        当前浏览器不支持Canvas，请更换浏览器后再试
+    </canvas>
+    <div id="controller">
+        <h1>Canvas 繪圖之旅</h1>
+        <a href="#" id="canvas-btn">停止運動</a>
+        <a href="#" class="color-btn" id="white-color-btn">&nbsp</a>
+        <a href="#" class="color-btn" id=black-color-btn>&nbsp</a>
+    </div>
+</div>
 <script>
     var balls = [];
+
+    var isMoving = true;
+    var themeColor="white";
+
     window.onload = function() {
         var canvas = document.getElementById('canvas');
         canvas.width = 1200;
@@ -35,12 +103,35 @@
         }
         setInterval(function (){
             draw(context);
-            update(canvas.width,canvas.height);
+            if(isMoving){
+                update(canvas.width,canvas.height);
+            }
         },50);
+        document.getElementById("canvas-btn").onclick=function(event){
+            if(isMoving){
+                isMoving = false;
+                this.text = "開始運動";
+            }else{
+                isMoving = true;
+                this.text = "停止運動";
+            }
+            return false;
+        }
+        document.getElementById("white-color-btn").onclick=function(event){
+            themeColor="white";
+        }
+        document.getElementById("black-color-btn").onclick=function(event){
+            themeColor="black";
+        }        
     }
     function draw(cxt){
         var canvas = cxt.canvas;
         cxt.clearRect(0,0,canvas.width,canvas.height);
+
+        if(themeColor=='black'){
+            cxt.fillStyle="black";
+            cxt.fillRect(0,0,canvas.width,canvas.height);
+        }
 
         for (var i=0;i<balls.length;i++){
             cxt.fillStyle=balls[i].color;
