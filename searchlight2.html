@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>探照灯、聚光灯效果</title>
+</head>
+<body>
+<canvas id="canvas" style="border: 1px solid #aaa;display:block;margin:50px auto;">
+    当前浏览器不支持Canvas，请更换浏览器后再试
+</canvas>
+<script>
+    var searchlight={x:400,y:400,radius: 150,vx:Math.random()*5+10,vy:Math.random()*5+10}
+    window.onload = function() {
+        var canvas = document.getElementById('canvas');
+        canvas.width = 800;
+        canvas.height = 768;
+
+        var context = canvas.getContext("2d");
+
+        setInterval(function (){
+            draw(context);
+            update(canvas.width,canvas.height);
+        },50);
+
+    }
+    function  draw(cxt){
+        var canvas = cxt.canvas;
+        cxt.save();
+
+        cxt.beginPath();
+        cxt.fillStyle = "black";
+        cxt.fillRect(0, 0, canvas.width, canvas.height);
+
+        cxt.beginPath();
+        cxt.arc(searchlight.x, searchlight.y, searchlight.radius, 0, Math.PI * 2);
+        cxt.fillStyle="#fff";
+        cxt.fill();
+        cxt.clip();
+
+        cxt.font = "bold 150px Arial";
+        cxt.textAlign = "center";
+        cxt.textBaseline = "middle";
+        cxt.fillStyle = "#058";
+        cxt.fillText("CANVAS",canvas.width/2,canvas.height/4);
+        cxt.fillText("CANVAS",canvas.width/2,canvas.height/2);
+        cxt.fillText("CANVAS",canvas.width/2,canvas.height*3/4);
+
+        cxt.restore();
+    }
+    function update(canvasWidth,canvasHeight){
+        searchlight.x += searchlight.vx;
+        searchlight.y += searchlight.vy;
+        //超出左边界
+        if (searchlight.x - searchlight.radius<=0){
+            searchlight.vx = -searchlight.vx;
+            searchlight.x = searchlight.radius;
+        }
+        //超出右边界
+        if (searchlight.x + searchlight.radius >= canvasWidth){
+            searchlight.vx = -searchlight.vx;
+            searchlight.x = canvasWidth-searchlight.radius;
+        }
+        //超出上边界
+        if (searchlight.y - searchlight.radius<=0){
+            searchlight.vy = -searchlight.vy;
+            searchlight.y = searchlight.radius;
+        }
+        //超出下边界
+        if (searchlight.y + searchlight.radius >= canvasHeight){
+            searchlight.vy = -searchlight.vy;
+            searchlight.y = canvasHeight-searchlight.radius;
+        }
+    }
+</script>
+</body>
+</html>
